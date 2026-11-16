@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080b18">
+  <meta name="description" content="Explora los Meta Quest 3S en realidad aumentada y realidad virtual.">
+  <title>Descubre los Meta Quest 3S desde otra realidad</title>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+  <style>
+    :root { color-scheme: dark; --bg:#080b18; --panel:#11172b; --muted:#aab4d0; --cyan:#65e7f2; --violet:#9c83ff; }
+    * { box-sizing:border-box }
+    body { margin:0; min-height:100vh; color:#f6f7ff; font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;
+      background:radial-gradient(ellipse at 50% 30%,#20234a 0%,#0d1227 42%,var(--bg) 78%); }
+    .shell { width:min(1120px,100%); margin:auto; padding:clamp(22px,5vw,58px) 20px 30px; }
+    header { text-align:center; max-width:850px; margin:0 auto 24px; }
+    .eyebrow { color:var(--cyan); letter-spacing:.2em; text-transform:uppercase; font-size:.72rem; font-weight:800; }
+    h1 { font-size:clamp(2rem,6vw,4.4rem); line-height:1.02; letter-spacing:-.045em; margin:14px 0; }
+    h1 span { background:linear-gradient(90deg,var(--cyan),#b9a8ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .intro { color:var(--muted); font-size:clamp(1rem,2vw,1.12rem); line-height:1.65; margin:0 auto; max-width:650px; }
+    .viewer-wrap { position:relative; overflow:hidden; border:1px solid #ffffff20; border-radius:28px; background:linear-gradient(145deg,#171d38dd,#090d1cdd);
+      box-shadow:0 28px 90px #0008; }
+    model-viewer { display:block; width:100%; height:min(62vh,590px); min-height:340px; --poster-color:transparent; background:radial-gradient(ellipse at 50% 58%,#3d3b7144,transparent 58%); }
+    .hint { position:absolute; top:16px; left:16px; padding:9px 13px; border-radius:99px; background:#090d1dcc; border:1px solid #ffffff20; color:#dce4ff; font-size:.78rem; pointer-events:none; }
+    .controls { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; padding:18px; border-top:1px solid #ffffff15; }
+    button { border:0; border-radius:14px; padding:14px 20px; font:700 .95rem inherit; font-weight:750; cursor:pointer; transition:transform .18s,filter .18s; }
+    button:hover { transform:translateY(-2px); filter:brightness(1.1); }
+    button:focus-visible { outline:3px solid white; outline-offset:3px; }
+    .primary { color:#07101b; background:linear-gradient(100deg,var(--cyan),#a8b4ff); }
+    .secondary { color:#f5f4ff; background:#ffffff12; border:1px solid #ffffff30; }
+    .cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:18px; }
+    .card { padding:19px 20px; border:1px solid #ffffff1c; border-radius:18px; background:#11172bbd; }
+    .card h2 { font-size:1rem; margin:0 0 7px; }
+    .card p { color:var(--muted); font-size:.9rem; line-height:1.55; margin:0; }
+    #status { min-height:1.5em; text-align:center; color:var(--muted); font-size:.85rem; margin:14px 0 0; }
+    footer { text-align:center; color:#7f89a8; font-size:.78rem; margin-top:28px; }
+    #vr-root { position:fixed; inset:0; display:none; z-index:10; background:#050711; }
+    #vr-root.active { display:block; }
+    #vr-root canvas { width:100%; height:100%; display:block; }
+    #exit-vr { position:fixed; z-index:12; top:18px; right:18px; display:none; }
+    #exit-vr.show { display:block; }
+    @media(max-width:620px) { .cards { grid-template-columns:1fr; } model-viewer { min-height:310px; height:48vh; } .controls button { flex:1 1 100%; } }
+  </style>
+</head>
+<body>
+  <main class="shell" id="main">
+    <header>
+      <div class="eyebrow">Una experiencia inmersiva</div>
+      <h1>Descubre los <span>Meta Quest 3S</span> desde otra realidad</h1>
+      <p class="intro">Explora el visor en 3D, obsérvalo desde todos los ángulos y llévalo a tu espacio con realidad aumentada o sumérgete en realidad virtual.</p>
+    </header>
+
+    <section class="viewer-wrap" aria-label="Visor 3D interactivo">
+      <div class="hint">↔ Arrastra para explorar · Pellizca para ampliar</div>
+      <model-viewer id="product"
+        src="./METAQUEST3SS.glb"
+        alt="Modelo 3D de los Meta Quest 3S"
+        camera-controls touch-action="pan-y"
+        interaction-prompt="auto"
+        shadow-intensity="1.1"
+        exposure="1"
+        environment-image="neutral"
+        ar ar-modes="webxr scene-viewer quick-look"
+        ar-scale="auto"
+        loading="eager">
+        <div slot="progress-bar"></div>
+      </model-viewer>
+      <div class="controls">
+        <button class="primary" id="ar-button">⌖ Ver en mi espacio (AR)</button>
+        <button class="secondary" id="vr-button">◈ Entrar en realidad virtual</button>
+        <button class="secondary" id="reset-button">↻ Reiniciar vista</button>
+      </div>
+    </section>
+
+    <section class="cards" aria-label="Modos de exploración">
+      <article class="card"><h2>⌖ Realidad aumentada · Móvil</h2><p>Abre la experiencia AR en un teléfono compatible para visualizar el modelo en tu entorno. En iPhone se utiliza Quick Look; en Android, Scene Viewer o WebXR según el navegador.</p></article>
+      <article class="card"><h2>◈ Realidad virtual · Meta Quest 3S</h2><p>Abre esta página en el navegador del Quest 3S y pulsa “Entrar en realidad virtual”. Necesitas permitir el acceso a VR cuando el navegador lo solicite.</p></article>
+    </section>
+    <p id="status" role="status">Cargando modelo 3D…</p>
+    <footer>Experiencia web 3D · Requiere conexión a internet para cargar los componentes de visualización.</footer>
+  </main>
+
+  <div id="vr-root" aria-label="Escena de realidad virtual"></div>
+  <button id="exit-vr" class="secondary">Salir de VR</button>
+
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+
+    const viewer = document.querySelector('#product');
+    const status = document.querySelector('#status');
+    const root = document.querySelector('#vr-root');
+    const main = document.querySelector('#main');
+    const exitButton = document.querySelector('#exit-vr');
+    let renderer, scene, camera, model, animationId;
+
+    viewer.addEventListener('load', () => status.textContent = 'Modelo listo. ¡Explóralo!');
+    viewer.addEventListener('error', () => status.textContent = 'No se pudo cargar el modelo. Comprueba que METAQUEST3SS.glb esté junto a index.html.');
+    document.querySelector('#ar-button').addEventListener('click', async () => {
+      if (!viewer.canActivateAR) {
+        status.textContent = 'La realidad aumentada no está disponible en este dispositivo o navegador. Prueba con Chrome en Android o Safari en iPhone.';
+        return;
+      }
+      try { await viewer.activateAR(); }
+      catch (e) { status.textContent = 'No se pudo iniciar AR. Comprueba los permisos del navegador.'; }
+    });
+    document.querySelector('#reset-button').addEventListener('click', () => viewer.resetTurntableRotation());
+
+    function setupVR() {
+      if (renderer) return;
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x080b18);
+      camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.01, 100);
+      camera.position.set(0, 1.55, 2.5);
+      renderer = new THREE.WebGLRenderer({ antialias:true, alpha:false });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.xr.enabled = true;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      root.appendChild(renderer.domElement);
+
+      scene.add(new THREE.HemisphereLight(0xcbdcff, 0x25203f, 2.1));
+      const key = new THREE.DirectionalLight(0xffffff, 2.6);
+      key.position.set(2, 4, 3); scene.add(key);
+      const fill = new THREE.PointLight(0x6bceff, 16, 8);
+      fill.position.set(-2, 1.5, -1); scene.add(fill);
+
+      const floor = new THREE.Mesh(new THREE.CircleGeometry(2.4, 64),
+        new THREE.MeshStandardMaterial({ color:0x171c38, roughness:.85, metalness:.12 }));
+      floor.rotation.x = -Math.PI / 2; floor.position.y = -0.85; scene.add(floor);
+
+      new GLTFLoader().load('./METAQUEST3SS.glb', gltf => {
+        model = gltf.scene;
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        model.position.sub(center);
+        const maxDim = Math.max(size.x, size.y, size.z) || 1;
+        model.scale.setScalar(1.15 / maxDim);
+        model.position.y = -0.15;
+        scene.add(model);
+        status.textContent = 'Escena VR preparada.';
+      }, undefined, () => status.textContent = 'No se pudo cargar el modelo para VR.');
+      renderer.setAnimationLoop(() => renderer.render(scene, camera));
+    }
+
+    document.querySelector('#vr-button').addEventListener('click', async () => {
+      if (!navigator.xr) {
+        status.textContent = 'Este navegador no ofrece WebXR. Abre la página desde el navegador de Meta Quest 3S para usar VR.';
+        return;
+      }
+      try {
+        const supported = await navigator.xr.isSessionSupported('immersive-vr');
+        if (!supported) {
+          status.textContent = 'Este dispositivo o navegador no admite sesiones VR inmersivas.';
+          return;
+        }
+        setupVR();
+        const session = await navigator.xr.requestSession('immersive-vr', { optionalFeatures:['local-floor','bounded-floor'] });
+        await renderer.xr.setSession(session);
+        root.classList.add('active'); main.style.visibility = 'hidden'; exitButton.classList.add('show');
+        session.addEventListener('end', () => {
+          root.classList.remove('active'); main.style.visibility = ''; exitButton.classList.remove('show');
+        });
+      } catch (e) {
+        status.textContent = 'No se pudo iniciar VR. Verifica permisos y que la página esté publicada con HTTPS.';
+      }
+    });
+    exitButton.addEventListener('click', () => {
+      const session = renderer?.xr?.getSession();
+      if (session) session.end();
+    });
+    addEventListener('resize', () => {
+      if (!renderer || !camera) return;
+      camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+  </script>
+</body>
+</html>
